@@ -7,12 +7,13 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      type: 'everything',
+      type: 'All Pokemon',
       typeList: [],
       pokemonList: [],
       pokemonByType: []
     }
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -20,7 +21,7 @@ class App extends React.Component {
     .then(responseOne => {
       axios.get('route/getTypes')
       .then(responseTwo => {
-        var types = [{type: 'everything'}, ...responseTwo.data];
+        var types = [{type: 'All Pokemon'}, ...responseTwo.data];
         this.setState({
           pokemonList: responseOne.data
         })
@@ -34,6 +35,12 @@ class App extends React.Component {
     })
     .catch(err => {
       console.log(err)
+    })
+  }
+
+  handleClick(event) {
+    this.setState({
+      type: 'All Pokemon'
     })
   }
 
@@ -52,31 +59,15 @@ class App extends React.Component {
   }
 
   render() {
-    if (this.state.type === 'everything') {
+    if (this.state.type === 'All Pokemon') {
       return (
         <div>
           <h1>Fullstack Pokedex!</h1>
-          <button>Show All</button>
+          <button onClick={this.handleClick}>Show All</button>
           <select value={this.state.type} onChange={this.handleChange}>
             {this.state.typeList.map((type, index) => (
               <Types types={type} key={index} />
             ))}
-            {/* <option value= "everything">Sort by Type</option>
-            <option value = "Grass">Grass</option>
-            <option value = "Fire">Fire</option>
-            <option value = "Water">Water</option>
-            <option value = "Bug">Bug</option>
-            <option value = "Normal">Normal</option>
-            <option value = "Poison">Poison</option>
-            <option value = "Electric">Electric</option>
-            <option value = "Ground">Ground</option>
-            <option value = "Fighting">Fighting</option>
-            <option value = "Psychic">Psychic</option>
-            <option value = "Rock">Rock</option>
-            <option value = "Ghost">Ghost</option>
-            <option value = "Ice">Ice</option>
-            <option value = "Dragon">Dragon</option>
-            <option value = "Fighting">Fighting</option> */}
           </select>
           <div>
             {this.state.pokemonList.map((pokemon, index) => (
@@ -90,27 +81,11 @@ class App extends React.Component {
       return (
         <div>
           <h1>Fullstack Pokedex!</h1>
-            <button>Show All</button>
+            <button onClick={this.handleClick}>Show All</button>
             <select value={this.state.type} onChange={this.handleChange} id="types">
             {this.state.typeList.map((type, index) => (
               <Types types={type} key={index} />
             ))}
-              {/* <option value= "everything">Sort by Type</option>
-              <option value = "Grass">Grass</option>
-              <option value = "Fire">Fire</option>
-              <option value = "Water">Water</option>
-              <option value = "Bug">Bug</option>
-              <option value = "Normal">Normal</option>
-              <option value = "Poison">Poison</option>
-              <option value = "Electric">Electric</option>
-              <option value = "Ground">Ground</option>
-              <option value = "Fighting">Fighting</option>
-              <option value = "Psychic">Psychic</option>
-              <option value = "Rock">Rock</option>
-              <option value = "Ghost">Ghost</option>
-              <option value = "Ice">Ice</option>
-              <option value = "Dragon">Dragon</option>
-              <option value = "Fighting">Fighting</option> */}
           </select>
             <div>
             {this.state.pokemonByType.map((pokemon, index) => (
