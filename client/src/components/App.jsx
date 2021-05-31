@@ -14,9 +14,33 @@ class App extends React.Component {
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.fetchData = this.fetchData.bind(this);
   }
 
   componentDidMount() {
+    this.fetchData();
+    // axios.get('/route/getPokemon')
+    // .then(responseOne => {
+    //   axios.get('route/getTypes')
+    //   .then(responseTwo => {
+    //     var types = [{type: 'All Pokemon'}, ...responseTwo.data];
+    //     this.setState({
+    //       pokemonList: responseOne.data
+    //     })
+    //     this.setState({
+    //       typeList: types
+    //     })
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   })
+    // })
+    // .catch(err => {
+    //   console.log(err)
+    // })
+  }
+
+  fetchData = () => {
     axios.get('/route/getPokemon')
     .then(responseOne => {
       axios.get('route/getTypes')
@@ -36,7 +60,7 @@ class App extends React.Component {
     .catch(err => {
       console.log(err)
     })
-  }
+  };
 
   handleClick(event) {
     this.setState({
@@ -71,7 +95,7 @@ class App extends React.Component {
           </select>
           <div>
             {this.state.pokemonList.map((pokemon, index) => (
-              <Pokemon props={pokemon} key={index} />
+              <Pokemon props={pokemon} key={index} function={this.fetchData}/>
             ))}
           </div>
         </div>
@@ -89,7 +113,7 @@ class App extends React.Component {
           </select>
             <div>
             {this.state.pokemonByType.map((pokemon, index) => (
-              <Pokemon props={pokemon} key={index} />
+              <Pokemon props={pokemon} key={index} function={this.fetchData}/>
             ))}
           </div>
         </div>

@@ -40,17 +40,19 @@ class pokemonList extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    // axios.put('/route/changePokemon/${this.state.id}`)
-    //   .then(response => {
-
-    //   })
-    //   .catch(error => {
-
-    //   })
-    // Change props back to null?
-    this.setState({
-      clicked: !this.state.clicked
+    axios.put(`/route/changePokemon/${this.state.id}`, {
+      name: this.state.value
     })
+      .then(response => {
+        this.setState({
+          clicked: !this.state.clicked
+        })
+        this.props.function();
+      })
+      .catch(error => {
+        console.log('error')
+      })
+    // Change props back to null?
   }
 
   render() {
