@@ -1,15 +1,6 @@
 import React from "react";
 import axios from "axios";
 
-// var pokemonList = (props) => {
-//   return (
-//     <div>
-//       <h3>{props.props.name}</h3>
-//       <img src={props.props.img} />
-//     </div>
-//   )
-// }
-
 class pokemonList extends React.Component {
   constructor(props) {
     super(props);
@@ -22,6 +13,7 @@ class pokemonList extends React.Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   handleClick(event) {
@@ -29,6 +21,16 @@ class pokemonList extends React.Component {
       clicked: !this.state.clicked,
       clickedPokemon: event.target.getAttribute('name'),
       id: event.target.id
+    })
+  }
+
+  handleDelete(event) {
+    axios.delete(`/route/deletePokemon/${event.target.id}`)
+    .then((response) => {
+      this.props.function();
+    })
+    .catch((error) => {
+      console.log('error');
     })
   }
 
@@ -61,6 +63,9 @@ class pokemonList extends React.Component {
         <div>
           <h3 name={this.props.props.name} onClick={this.handleClick} id={this.props.props.id}>{this.props.props.name}</h3>
           <img src={this.props.props.img} />
+          <div>
+            <button onClick={this.handleDelete} id={this.props.props.id}>Delete Pokemon</button>
+          </div>
         </div>
       )
     } else {
@@ -75,9 +80,13 @@ class pokemonList extends React.Component {
               <input type="submit" value="Submit" />
             </form>
             <img src={this.props.props.img} />
+            <div>
+              <button onClick={this.handleDelete} id={this.props.props.id}>Delete Pokemon</button>
+            </div>
           </span> :
           <span>
             <h3 onClick={this.handleClick}>{this.props.props.name}</h3> <img src={this.props.props.img} />
+            <button onClick={this.handleDelete} id={this.props.props.id}>Delete Pokemon</button>
           </span>
           }
         </div>

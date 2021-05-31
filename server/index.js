@@ -48,6 +48,17 @@ app.put('/route/changePokemon/:id', (req, res) => {
   })
 })
 
+app.delete('/route/deletePokemon/:id', (req, res) => {
+  var queryString = `DELETE FROM pokemon WHERE pokemon.id=${req.params.id}`;
+  db.query(queryString, (err, data) => {
+    if (err) {
+      res.status(404).send(err);
+    } else {
+      res.status(200).send('deleted');
+    }
+  })
+})
+
 app.listen(port, () => {
   console.log(`App is listening at https://localhost:${port}`)
 });
